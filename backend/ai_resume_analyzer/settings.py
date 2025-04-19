@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'users',
     'resumes',
     'jobs',
+    'notifications',
     'feedback',
     'djoser',
     'drf_yasg',

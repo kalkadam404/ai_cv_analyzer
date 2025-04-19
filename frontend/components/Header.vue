@@ -1,57 +1,90 @@
 <template>
-  <header
-    class="bg-black text-white shadow-md py-4 px-6 flex justify-between items-center"
-  >
-    <div class="flex items-center gap-3">
-      <NuxtLink
-        to="/"
-        class="text-2xl font-bold text-white hover:text-gray-400"
-      >
-        AI Resume
-      </NuxtLink>
-    </div>
-
-    <nav class="flex gap-4 items-center">
-      <NuxtLink to="/" class="text-gray-300 hover:text-white">Главная</NuxtLink>
-      <!-- <NuxtLink to="/about" class="text-gray-300 hover:text-white"
-        >О нас</NuxtLink
-      > -->
-      <NuxtLink
-        v-if="isLoggedIn"
-        to="/profile"
-        class="text-gray-300 hover:text-white"
-        >Профиль</NuxtLink
-      >
-
-      <div v-if="isLoggedIn" class="flex items-center gap-4">
-        <span class="text-sm text-gray-400">👋 {{ username }}</span>
-        <button
-          @click="logout"
-          class="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition"
-        >
-          Выйти
-        </button>
+  <header class="sticky top-0 z-50 w-full backdrop-blur bg-white/80 px-20">
+    <div
+      class="container mx-auto flex items-center justify-between px-4 md:px-6 py-4"
+    >
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <img
+          src="../assets/ep_suitcase.svg"
+          class="w-6 h-6 md:w-7 md:h-7"
+          alt="logo"
+        />
+        <span class="text-2xl font-bold text-gray-800">JumysTap</span>
       </div>
 
-      <div v-else class="flex gap-4">
+      <!-- Nav (Desktop) -->
+      <nav class="hidden md:flex items-center gap-8 text-gray-700">
         <NuxtLink
-          to="/login"
-          class="bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition"
+          href="#"
+          class="hover:text-black transition-all duration-200 text-base font-medium"
+        >
+          Поиск вакансий
+        </NuxtLink>
+        <NuxtLink
+          href="#"
+          class="hover:text-black transition-all duration-200 text-base font-medium"
+        >
+          Анализ резюме
+        </NuxtLink>
+        <NuxtLink
+          href="#"
+          class="hover:text-black transition-all duration-200 text-base font-medium"
+        >
+          Для работодателей
+        </NuxtLink>
+        <NuxtLink
+          href="#"
+          class="hover:text-black transition-all duration-200 text-base font-medium"
+        >
+          О нас
+        </NuxtLink>
+      </nav>
+
+      <!-- Auth Buttons -->
+      <div class="flex items-center gap-4">
+        <NuxtLink
+          href="#"
+          class="text-gray-700 hover:text-black text-base font-medium transition duration-200"
         >
           Войти
         </NuxtLink>
-        <NuxtLink
-          to="/register"
-          class="bg-white text-black px-4 py-2 rounded-full hover:bg-gray-200 transition"
+        <button
+          class="bg-black text-white font-medium rounded-lg px-5 py-2 transition hover:opacity-90 hover:scale-105"
         >
           Регистрация
-        </NuxtLink>
+        </button>
       </div>
-    </nav>
+
+      <!-- Burger (Mobile) -->
+      <div class="md:hidden">
+        <button class="text-gray-800 hover:text-black focus:outline-none">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
   </header>
 </template>
 
+<style scoped>
+button,
+a {
+  transition: all 0.3s ease;
+}
+</style>
+
 <script setup>
+import { NuxtLink } from "#components";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
@@ -77,13 +110,6 @@ const logout = () => {
 </script>
 
 <style scoped>
-header {
-  z-index: 10;
-  position: sticky;
-  top: 0;
-  background-color: black;
-}
-
 button,
 a {
   transition: all 0.3s ease;
