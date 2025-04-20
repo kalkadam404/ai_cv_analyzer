@@ -42,7 +42,7 @@
       </nav>
 
       <!-- Auth Buttons -->
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-4" v-if="!userStore.isLoggedIn">
         <button
           @click="emit('openLoginModal')"
           class="text-gray-700 hover:text-black text-base font-medium transition duration-200"
@@ -54,6 +54,17 @@
           class="bg-black text-white font-medium rounded-lg px-5 py-2 transition hover:opacity-90 hover:scale-105"
         >
           Регистрация
+        </button>
+      </div>
+
+      <div class="flex items-center gap-4" v-else>
+        <img src="../assets/abu.jpg" alt="" class="w-12 h-12 rounded-full" />
+        <div class="font-medium text-lg">{{ userStore.username }}</div>
+        <button
+          @click="userStore.logout"
+          class="bg-black text-white font-medium rounded-lg px-5 py-2 transition hover:opacity-90 hover:scale-105"
+        >
+          Выйти
         </button>
       </div>
 
@@ -91,25 +102,25 @@ import { useRouter } from "vue-router";
 
 const isLoggedIn = ref(false);
 const username = ref("");
-const router = useRouter();
+const userStore = useUserStore();
 
 const emit = defineEmits(["openLoginModal", "toggleToRegister"]);
 
 onMounted(() => {
-  const token = localStorage.getItem("access_token");
-  const storedUsername = localStorage.getItem("username");
-  if (token && storedUsername) {
-    isLoggedIn.value = true;
-    username.value = storedUsername;
-  }
+  userStore.initialize();
+  // const token = localStorage.getItem("access_token");
+  // const storedUsername = localStorage.getItem("username");
+  // if (token && storedUsername) {
+  //   isLoggedIn.value = true;
+  //   username.value = storedUsername;
+  // }
 });
 
-const logout = () => {
-  localStorage.removeItem("access_token");
-  localStorage.removeItem("username");
-  isLoggedIn.value = false;
-  router.push("/login");
-};
+// const logout = () => {
+//   localStorage.removeItem("access_token");
+//   localStorage.removeItem("username");
+//   isLoggedIn.value = false;
+// };
 </script>
 
 <style scoped>

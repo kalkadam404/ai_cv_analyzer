@@ -26,30 +26,35 @@
 
 <script setup>
 import { ref } from "vue";
+import axios from "axios";
 
 const file = ref(null);
 const result = ref(null);
-const { $axios } = useNuxtApp();
-
 const onFileChange = (e) => {
   file.value = e.target.files[0];
 };
 
 const uploadResume = async () => {
-  if (!file.value) return;
+  const token = localStorage.getItem("access_token");
 
   const formData = new FormData();
-  formData.append("resume", file.value);
+  formData.append("file", file.value);
 
   try {
-    const response = await $axios("/resumes/upload/", {
-      method: "POST",
-      body: formData,
-    });
-
-    result.value = response;
-  } catch (err) {
-    alert("Upload failed: " + err.message);
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/resumes/upload/",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    result.value = response.data;
+    console.log("Resume uploaded successfully:", response.data);
+  } catch (error) {
+    console.error("Error uploading resume:", error);
   }
 };
 </script>

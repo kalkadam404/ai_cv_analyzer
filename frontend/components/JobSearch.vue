@@ -2,7 +2,9 @@
   <section class="border-t border-slate-300">
     <div
       class="px-20 flex flex-col items-center gap-2 mt-20 mb-20"
-      data-aos="fade-up"
+      data-aos="fade-down"
+      data-aos-easing="linear"
+      data-aos-duration="1500"
     >
       <div class="font-bold text-4xl">Поиск вакансий</div>
       <p class="text-slate-500 text-xl font-medium">

@@ -88,7 +88,8 @@ const emit = defineEmits(["closeLoginModal", "toggleToRegister"]);
 
 const username = ref("");
 const password = ref("");
-const router = useRouter();
+
+const userStore = useUserStore();
 
 const login = async () => {
   try {
@@ -96,12 +97,14 @@ const login = async () => {
       username: username.value,
       password: password.value,
     });
-    console.log(response.data);
-    localStorage.setItem("access_token", response.data.access);
-    localStorage.setItem("username", username.value);
-    router.push("/Profile");
+
+    const accessToken = response.data.access;
+    userStore.login(username.value, accessToken); // авторизация через store
+
+    emit("closeLoginModal"); // закрываем модалку
   } catch (error) {
-    console.error("Login failed:", error);
+    console.error("Login failed:", error.response?.data || error);
+    alert("Неверный логин или пароль"); // можно добавить alert
   }
 };
 </script>

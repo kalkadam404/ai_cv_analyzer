@@ -12,28 +12,25 @@
       <div class="text-2xl font-bold">Создание аккаунта</div>
       <p class="text-gray-500">Заполните форму ниже, чтобы создать аккаунт</p>
     </div>
-    <form @submit.prevent="login" class="w-full flex flex-col gap-4">
+    <form @submit.prevent="register" class="w-full flex flex-col gap-4">
       <div>
         <label for="username" class="block text-gray-700 font-medium"
-          >Имя и фамилия</label
+          >Имя пользователя</label
         >
         <input
           v-model="username"
           type="text"
           id="username"
           required
-          placeholder="Введите ваш имя и фамилию"
+          placeholder="Придумайте имя пользователя"
           class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
         />
       </div>
       <div>
-        <label for="username" class="block text-gray-700 font-medium"
-          >Email</label
-        >
+        <label for="email" class="block text-gray-700 font-medium">Email</label>
         <input
-          v-model="username"
+          v-model="email"
           type="text"
-          id="username"
           required
           placeholder="Введите ваш email"
           class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
@@ -98,8 +95,8 @@
 
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
-import { useRouter } from "vue-router";
+
+const userStore = useUserStore();
 const emit = defineEmits([
   "closeRegisterModal",
   "toggleToRegister",
@@ -107,22 +104,34 @@ const emit = defineEmits([
 ]);
 
 const username = ref("");
+const email = ref("");
 const password = ref("");
-const router = useRouter();
 const role = ref("job_seeker");
+const error = ref(null);
+const success = ref(false);
 
-const login = async () => {
+const register = async () => {
+  error.value = null;
+  success.value = false;
+
   try {
-    const response = await axios.post("http://127.0.0.1:8000/auth/token/", {
-      username: username.value,
-      password: password.value,
-    });
-    console.log(response.data);
-    localStorage.setItem("access_token", response.data.access);
-    localStorage.setItem("username", username.value);
-    router.push("/Profile");
-  } catch (error) {
-    console.error("Login failed:", error);
+    await userStore.register(
+      username.value,
+      email.value,
+      password.value,
+      role.value
+    );
+    success.value = true;
+  } catch (err) {
+    console.error("Registration error:", err);
+    error.value =
+      err?.username?.[0] ||
+      err?.email?.[0] ||
+      err?.password?.[0] ||
+      err?.role?.[0] ||
+      "Ошибка регистрации";
   }
+  emit("closeRegisterModal");
+  emit("openLoginModal"); // открываем модалку входа
 };
 </script>
