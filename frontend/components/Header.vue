@@ -16,13 +16,13 @@
       <!-- Nav (Desktop) -->
       <nav class="hidden md:flex items-center gap-8 text-gray-700">
         <NuxtLink
-          href="#"
+          to="/VacancyList"
           class="hover:text-black transition-all duration-200 text-base font-medium"
         >
-          Поиск вакансий
+          Вакансий
         </NuxtLink>
         <NuxtLink
-          href="#"
+          to="/Analysis"
           class="hover:text-black transition-all duration-200 text-base font-medium"
         >
           Анализ резюме
@@ -58,8 +58,10 @@
       </div>
 
       <div class="flex items-center gap-4" v-else>
-        <img src="../assets/abu.jpg" alt="" class="w-12 h-12 rounded-full" />
-        <div class="font-medium text-lg">{{ userStore.username }}</div>
+        <img src="../assets/user.png" alt="" class="w-12 h-12 rounded-full" />
+        <NuxtLink to="/Profile" class="font-medium text-lg">{{
+          userStore.username
+        }}</NuxtLink>
         <button
           @click="userStore.logout"
           class="bg-black text-white font-medium rounded-lg px-5 py-2 transition hover:opacity-90 hover:scale-105"

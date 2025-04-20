@@ -25,6 +25,7 @@ urlpatterns = [
     path('auth/', include('users.urls')),
     path('api/', include('resumes.urls')),
     path('api/', include('jobs.urls')),
+    path('api/resumes/', include('feedback.urls')),
     path('api/notifications/', include('notifications.urls')),
     
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
