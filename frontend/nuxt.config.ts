@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
   css: ["~/assets/css/main.css"],
-  modules: ["@pinia/nuxt"],
+  modules: ["@pinia/nuxt", "@vueuse/nuxt", "nuxt-aos"],
   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.NUXT_API_BASE_URL || "http://127.0.0.1:8000/api",

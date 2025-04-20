@@ -4,14 +4,14 @@
       class="container mx-auto flex items-center justify-between px-4 md:px-6 py-4"
     >
       <!-- Logo -->
-      <div class="flex items-center gap-3">
+      <NuxtLink to="/" class="flex items-center gap-3">
         <img
           src="../assets/ep_suitcase.svg"
           class="w-6 h-6 md:w-7 md:h-7"
           alt="logo"
         />
         <span class="text-2xl font-bold text-gray-800">JumysTap</span>
-      </div>
+      </NuxtLink>
 
       <!-- Nav (Desktop) -->
       <nav class="hidden md:flex items-center gap-8 text-gray-700">
@@ -43,13 +43,14 @@
 
       <!-- Auth Buttons -->
       <div class="flex items-center gap-4">
-        <NuxtLink
-          href="#"
+        <button
+          @click="emit('openLoginModal')"
           class="text-gray-700 hover:text-black text-base font-medium transition duration-200"
         >
           Войти
-        </NuxtLink>
+        </button>
         <button
+          @click="emit('toggleToRegister')"
           class="bg-black text-white font-medium rounded-lg px-5 py-2 transition hover:opacity-90 hover:scale-105"
         >
           Регистрация
@@ -91,6 +92,8 @@ import { useRouter } from "vue-router";
 const isLoggedIn = ref(false);
 const username = ref("");
 const router = useRouter();
+
+const emit = defineEmits(["openLoginModal", "toggleToRegister"]);
 
 onMounted(() => {
   const token = localStorage.getItem("access_token");
